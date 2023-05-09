@@ -10,7 +10,7 @@ def login():
     password = request.json.get('password')
 
     user = Admin.get_by_email(email)
-    if user and user.is_valid(password):
+    if user and user.is_valid_password(password):
         return 'Login succcessful', 200
     return 'Invalid Email or Password', 400
 

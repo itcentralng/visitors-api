@@ -9,7 +9,7 @@ class Admin(db.Model):
     fullname = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False, unique=True)
     phone = db.Column(db.String, nullable=False, unique=True)
-    password = db.Column(db.String, nullable=False)
+    password = db.Column(db.String)
     created_at = db.Column(db.DateTime, nullable=False, default=timestamp)
     updated_at = db.Column(db.DateTime, nullable=True)
 
@@ -20,7 +20,7 @@ class Admin(db.Model):
     def update(self):
         db.session.commit()
 
-    def set_password(self, password):
+    def is_valid_password(self, password):
         self.password = gen_passwd(password)
         return True
     
@@ -34,6 +34,6 @@ class Admin(db.Model):
     @classmethod
     def create(cls, fullname, email, phone, password):
         user = cls(fullname=fullname, email=email, phone=phone)
-        user.set_password(password)
+        user.is_valid_password(password)
         user.save()
         user.update()
