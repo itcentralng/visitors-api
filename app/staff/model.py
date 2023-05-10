@@ -28,6 +28,7 @@ class Staff(db.Model):
         self.title = title or self.title
         self.phone = phone or self.phone
         self.email = email or self.email
+        self.updated_at = timestamp
         db.session.commit()
 
     def update_avaibility(self, avaibility):
@@ -46,6 +47,14 @@ class Staff(db.Model):
         return cls.query.filter_by(phone=phone).first()
     
     @classmethod
+    def get_all_staff(cls):
+        return cls.query.all()
+    
+    @classmethod
+    def get_staff_by_id(cls, id):
+        return cls.query.filter_by(id=id).first()
+    
+    @classmethod
     def get_staff_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
     
@@ -55,7 +64,5 @@ class Staff(db.Model):
     
     @classmethod
     def create(cls, name, title, phone, email, avaibility, password):
-        user = cls(name=name, title=title, phone=phone, email=email, avaibility=avaibility)
+        user = cls(name=name, title=title, phone=phone, email=email, avaibility=avaibility, password=gen_passwd(password))
         user.save()
-        user.set_password(password)
-        user.update()

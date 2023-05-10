@@ -12,10 +12,10 @@ def register_visitor():
     email = request.json.get('email')
     contact_address = request.json.get('contact_address')
 
-    request = Visitors.get_visitor_by_email_or_phone(phone=phone, email=email)
-    visitor_data = VisitorsSchema().dump(request)
+    data = Visitors.get_visitor_by_email_or_phone(phone=phone, email=email)
+    visitor_data = VisitorsSchema().dump(data)
 
-    if not request:
+    if not data:
         Visitors.create(name, phone, email, contact_address)
         return {
             'message': '{}\'s account created successfully'.format(name),
@@ -34,9 +34,9 @@ def update_visitor():
     email = request.json.get('email')
     contact_address = request.json.get('contact_address')
 
-    request = Visitors.get_visitor_by_email_or_phone(phone=phone, email=email)
+    data = Visitors.get_visitor_by_email_or_phone(phone=phone, email=email)
 
-    if request:
+    if data:
         Visitors.update(name, phone, email, contact_address)
         return {'message': '{}\'s account updated successfully'.format(name)}, 200
     
