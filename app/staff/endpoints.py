@@ -7,7 +7,7 @@ from app.staff.schema import StaffSchema
 staff = Blueprint('staff', __name__, url_prefix='/staff')
 
 @staff.post('/register')
-def register_staff():
+def staff_register():
     name = request.json.get('name')
     title = request.json.get('title')
     phone = request.json.get('phone')
@@ -19,7 +19,7 @@ def register_staff():
     if not data:
         Staff.create(name, title, phone, email, avaibility, password)
         return 'Account created successfully', 200
-    return 'Account creation failed, \'{}\' staff profile exist'.format(data.name), 400
+    return 'Account creation failed, \'{}\' staff profile already exists'.format(data.name), 400
 
 @staff.post('/login')
 def staff_login():
